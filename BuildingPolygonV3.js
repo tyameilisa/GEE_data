@@ -21,7 +21,7 @@ Map.addLayer(buildings.limit(5000), {color: 'blue'}, 'Buildings sample');  // li
 // Export to Drive as Shapefile
 Export.table.toDrive({
   collection: buildings,
-  description: 'OpenBuildings_v3_IndonesiaRegion',
+  description: 'OpenBuildings_v3_08',
   fileFormat: 'SHP'
 });
 
