@@ -25,6 +25,17 @@ function addLayers(millis) {
       'building_presence_conf_' + year
   );
 
+  // Export the building height image for this year, preferably .tif that can be processed in GIS
+ Export.image.toDrive({
+    image: clipped.select('building_height'),
+    description: 'BuildingHeight_' + year,
+    folder: 'GEE_Exports', // optional: name of the Drive folder
+    scale: 10,              // Open Buildings is 10 m resolution
+    region: region.geometry(),
+    fileFormat: 'GeoTIFF',
+    maxPixels: 1e13
+  });
+
   // Add building height layer (hidden by default)
   Map.addLayer(
       clipped.select('building_height'),
@@ -50,44 +61,3 @@ Map.centerObject(region, 13);
 
 // Optional: visualize your region outline
 Map.addLayer(region.style({color: 'red', fillColor: '00000000'}), {}, 'Region Boundary');
-
-
-/**
- * Adds building presence and height layers for a given timestamp.
- * @param {number} millis Timestamp in milliseconds.
- */
-function addLayers(millis) {
-  var mosaic = col.filter(ee.Filter.eq('system:time_start', millis)).mosaic();
-  var clipped = mosaic.clip(region);
-  var year = new Date(millis).getFullYear();
-
-  // Add layers to the map
-  Map.addLayer(clipped.select('building_presence'), {max: 1}, 'building_presence_' + year);
-  Map.addLayer(clipped.select('building_height'), {max: 100}, 'building_height_' + year, false);
-
-  // Export the building height image for this year, preferably .tif that can be processed in GIS
-  Export.image.toDrive({
-    image: clipped.select('building_height'),
-    description: 'BuildingHeight_' + year,
-    folder: 'GEE_Exports', // optional: name of the Drive folder
-    scale: 10,              // Open Buildings is 10 m resolution
-    region: region.geometry(),
-    fileFormat: 'GeoTIFF',
-    maxPixels: 1e13
-  });
-}
-
-// Get available timestamps for your region
-var ts = col.filterBounds(region)
-             .aggregate_array('system:time_start')
-             .distinct()
-             .sort()
-             .getInfo()
-             .slice(-2); // Get latest 2 timestamps
-
-// Apply the function
-ts.forEach(addLayers);
-
-// Center map
-Map.centerObject(region, 13);
-Map.addLayer(region.style({color: 'red', fillColor: '00000000'}), {}, 'Region');
