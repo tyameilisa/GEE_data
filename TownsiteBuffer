@@ -1,12 +1,8 @@
-// Load your region (uploaded shapefile as FeatureCollection)
+// Load your region, number of asset is the kode for townsite (uploaded shapefile as FeatureCollection)
 var region = ee.FeatureCollection('projects/ee-meilisa1146/assets/08');
 
-// Load the Open Buildings temporal dataset
+// Load the Open Buildings temporal dataset, keep in mind that this data stops at 2023
 var col = ee.ImageCollection('GOOGLE/Research/open-buildings-temporal/v1');
-
-
-// Load the Open Buildings temporal dataset
-
 
 /**
  * Adds building presence and height layers for a given timestamp.
@@ -69,7 +65,7 @@ function addLayers(millis) {
   Map.addLayer(clipped.select('building_presence'), {max: 1}, 'building_presence_' + year);
   Map.addLayer(clipped.select('building_height'), {max: 100}, 'building_height_' + year, false);
 
-  // Export the building height image for this year
+  // Export the building height image for this year, preferably .tif that can be processed in GIS
   Export.image.toDrive({
     image: clipped.select('building_height'),
     description: 'BuildingHeight_' + year,
