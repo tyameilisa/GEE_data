@@ -1,3 +1,8 @@
+//for better visual, run under the BuildingPolygon.js
+
+// ===== CONFIG ===== 
+//this code can't export .shp file cuz 'Property longitude_latitude has type Geometry' it says. 
+
 // Load your region (uploaded shapefile)
 var region = ee.FeatureCollection('projects/ee-meilisa1146/assets/08');
 
@@ -19,3 +24,5 @@ Export.table.toDrive({
   description: 'OpenBuildings_v3_IndonesiaRegion',
   fileFormat: 'SHP'
 });
+
+//export it in .shp alternative like .geojson
