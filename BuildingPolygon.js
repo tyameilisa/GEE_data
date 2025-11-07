@@ -1,6 +1,8 @@
+//for better visual, run under the BuildingPolygon.js
+
 // ===== CONFIG =====
-var region = ee.FeatureCollection('projects/ee-meilisa1146/assets/08');
-var col = ee.ImageCollection('GOOGLE/Research/open-buildings-temporal/v1');
+var region = ee.FeatureCollection('projects/ee-meilisa1146/assets/08'); // local data
+var col = ee.ImageCollection('GOOGLE/Research/open-buildings-temporal/v1'); //not so much of a good quality imagery
 var threshold = 0.3;     // adjust 0.3-0.5 as needed
 var pixelScale = 10;     // 10 m pixel (adjust if your export used different)
 var minArea_m2 = 20;     // remove polygons smaller than this (m^2)
