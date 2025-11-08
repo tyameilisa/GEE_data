@@ -1,3 +1,5 @@
+//PRAKTIK MATA KULIAH SIPL - OKT 2024
+
 var imageCollection = ee.ImageCollection("MODIS/061/MOD11A1");
 var AOI = ee.FeatureCollection("projects/ee-siplmeilisa/assets/Jatim1");
 
